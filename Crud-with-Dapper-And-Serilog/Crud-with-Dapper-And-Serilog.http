@@ -1,0 +1,6 @@
+@Crud_with_Dapper_And_Serilog_HostAddress = http://localhost:5070
+
+GET {{Crud_with_Dapper_And_Serilog_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
