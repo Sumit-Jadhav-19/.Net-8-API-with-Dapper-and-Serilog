@@ -9,12 +9,10 @@ namespace Crud_with_Dapper_And_Serilog.Repository
 {
     public class CustomerRepository
     {
-        private readonly IConfiguration _configuration;
         private readonly ILogger<CustomerRepository> _logger;
         private readonly DapperContext _context;
-        public CustomerRepository(IConfiguration configuration, ILogger<CustomerRepository> logger, DapperContext connection)
+        public CustomerRepository(ILogger<CustomerRepository> logger, DapperContext connection)
         {
-            _configuration = configuration;
             _logger = logger;
             _context = connection;
         }
@@ -56,6 +54,26 @@ namespace Crud_with_Dapper_And_Serilog.Repository
                 var query = "INSERT INTO [dbo].[Customers] ([CustomerId] ,[CustomerName] ,[City] ,[Country]) VALUES (@CustomerId,@CustomerName,@City,@Country)";
                 using var db = _context.CreateConnection();
                 return await db.ExecuteAsync(query, customers);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(message: ex.Message, ex);
+                return 0;
+            }
+        }
+        public async Task<int> UpdateAsync(int CustomerId, Customers customers)
+        {
+            try
+            {
+                var db = _context.CreateConnection();
+                var query = "UPDATE [dbo].[Customers] SET [CustomerName] = @CustomerName,[City] = @City,[Country] = @Country WHERE [CustomerId]=" + CustomerId + "";
+                var affectedRows = await db.ExecuteAsync(query, new
+                {
+                    CustomerName = customers.CustomerName,
+                    City = customers.City,
+                    Country = customers.Country,
+                });
+                return affectedRows;
             }
             catch (Exception ex)
             {

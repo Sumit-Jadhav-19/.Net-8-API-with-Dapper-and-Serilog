@@ -33,5 +33,11 @@ namespace Crud_with_Dapper_And_Serilog.Controllers
             var res = await _customerRepository.AddAsync(customers);
             return Ok(res);
         }
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateCustomerAsync(int Id, Customers customers)
+        {
+            var res = await _customerRepository.UpdateAsync(Id, customers);
+            return Ok(res);
+        }
     }
 }
