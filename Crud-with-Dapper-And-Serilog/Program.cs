@@ -18,6 +18,7 @@ Log.Logger.Error("Loger implemented!");
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddScoped<CustomerRepository>();
 builder.Services.AddScoped<CategoriesRepository>();
+builder.Services.AddScoped<ProductRepository>();
 
 // Add services to the container.
 
